@@ -29,9 +29,15 @@ public class EventOutput<T> : IEventOutput
 	public object Object { get; set; }
 	public Type Type => typeof(T);
 
+	public Action DataAction { private get; set; }
+
 	public T Data
 	{
-		get => (T)Object;
+		get
+		{
+			DataAction?.Invoke();
+			return (T)Object;
+		}
 		set => Object = value;
 	}
 
@@ -99,7 +105,7 @@ public class EventIOAttribute : System.Attribute
 [System.AttributeUsage( AttributeTargets.Class )]
 public class LibraryEventAttribute : System.Attribute
 {
-	public string Library;
+	public string Library { get; private set; }
 
 	public LibraryEventAttribute( string library )
 	{
@@ -114,6 +120,7 @@ public class Event
 {
 	public virtual string Name => GetType().Name;
 
+	public Event Previous;
 	public List<Event> Next;
 
 	public List<IEventOutput> Outputs;
@@ -121,11 +128,11 @@ public class Event
 
 	public int TicksStart { get; set; }
 	public int TicksDuration { get; set; }
+	public bool EventSimulated { get; set; } = false;
 
 	public virtual void Start() { }
 	public virtual void Tick() { }
 	public virtual void End() { }
-	public virtual void UpdateOutput( IEventOutput output ) { }
 
 	protected Event() => RegisterEventInputOutput();
 

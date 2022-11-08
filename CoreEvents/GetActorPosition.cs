@@ -7,24 +7,20 @@ namespace Lune.CoreEvents;
 public class GetActorPosition : Event
 {
 	public override string Name => "Get Actor Position";
-	[EventIO] public EventInput<Actor> Actor { get; set; }
-	[EventIO] public EventOutput<Vector3> Position { get; set; }
+	[EventIO] public EventInput<Actor> Actor { get; set; } = new();
+	[EventIO] public EventOutput<Vector3> Position { get; set; } = new();
 
-	public override void UpdateOutput( IEventOutput output )
+	public GetActorPosition()
 	{
-		base.UpdateOutput( output );
-
-		if ( output != Position )
+		Position.DataAction = () =>
 		{
-			return;
-		}
+			if ( Actor.Data == null )
+			{
+				throw new EventPropertyException( Actor );
+			}
 
-		if ( Actor.Data == null )
-		{
-			throw new EventPropertyException( Actor );
-		}
-
-		Position.Data = new Vector3(
-			Actor.Data.Position.x, Actor.Data.Position.y, Actor.Data.Position.z );
+			Position.Data = new Vector3(
+				Actor.Data.Position.x, Actor.Data.Position.y, Actor.Data.Position.z );
+		};
 	}
 }

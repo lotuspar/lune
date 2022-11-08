@@ -13,13 +13,11 @@ public class CreateVector3 : Event
 	[EventIO] public EventInput<float> Z { get; set; } = new(0);
 	[EventIO] public EventOutput<Vector3> Result { get; set; } = new();
 
-	public override void UpdateOutput( IEventOutput output )
+	public CreateVector3()
 	{
-		base.UpdateOutput( output );
-
-		if ( output == Result )
+		Result.DataAction = () =>
 		{
 			Result.Data = new Vector3( X, Y, Z );
-		}
+		};
 	}
 }
