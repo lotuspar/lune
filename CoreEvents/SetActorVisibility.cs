@@ -15,7 +15,9 @@ public class SetActorVisibility : Event
 		base.Start();
 
 		if ( Actor.Data == null )
+		{
 			throw new EventPropertyException( Actor );
+		}
 
 		Actor.Data.Model.RenderingEnabled = IsVisible?.Data ?? true;
 	}

@@ -15,7 +15,9 @@ public class SetActorPosition : Event
 		base.Start();
 
 		if ( Actor.Data == null )
+		{
 			throw new EventPropertyException( Actor );
+		}
 
 		Actor.Data.Position = Position;
 	}

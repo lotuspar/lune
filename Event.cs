@@ -76,7 +76,9 @@ public class EventInput<T> : IEventInput
 	public EventInput( IEventOutput initial )
 	{
 		if ( initial is not EventOutput<T> instance )
+		{
 			throw new ArgumentException( $"Provided IEventOutput isn't EventOutput<{typeof(T).Name}>" );
+		}
 
 		From = instance;
 	}
@@ -125,12 +127,16 @@ public class Event
 	protected void RegisterEventInputOutput()
 	{
 		if ( !RegistrationFinished )
+		{
 			return;
+		}
 
 		foreach ( var propertyDescription in TypeLibrary.GetPropertyDescriptions( this ) )
 		{
 			if ( propertyDescription.GetCustomAttribute<EventIOAttribute>() == null )
+			{
 				return;
+			}
 
 			var value = propertyDescription.GetValue( this );
 			switch ( value )
