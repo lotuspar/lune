@@ -96,6 +96,17 @@ public class EventIOAttribute : System.Attribute
 {
 }
 
+[System.AttributeUsage( AttributeTargets.Class )]
+public class LibraryEventAttribute : System.Attribute
+{
+	public string Library;
+
+	public LibraryEventAttribute( string library )
+	{
+		Library = library;
+	}
+}
+
 /// <summary>
 /// Single event "node"
 /// </summary>

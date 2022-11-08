@@ -3,6 +3,7 @@ using Lune.Exceptions;
 
 namespace Lune.CoreEvents;
 
+[LibraryEvent( "Core" )]
 public class GetActorPosition : Event
 {
 	public override string Name => "Get Actor Position";
