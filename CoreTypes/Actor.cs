@@ -7,6 +7,8 @@ namespace Lune.CoreTypes;
 /// </summary>
 public class Actor
 {
+	public string Name { get; set; }
+
 	public Vector3 Position
 	{
 		get => Model.Position;
