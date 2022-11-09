@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Lune;
 
@@ -14,6 +16,16 @@ public class Scene
 	public List<Event> Events;
 
 	/// <summary>
+	/// List of all actors
+	/// </summary>
+	private List<Event> _actors;
+
+	/// <summary>
+	/// Read-only actors list 
+	/// </summary>
+	public ReadOnlyCollection<Event> Actors => _actors.AsReadOnly();
+
+	/// <summary>
 	/// Cache for events without parents
 	/// </summary>
 	private List<Event> _rootEventCache;
@@ -26,10 +38,9 @@ public class Scene
 	public void CacheEvents()
 	{
 		_rootEventCache.Clear();
-		foreach ( var @event in Events )
+		foreach ( var @event in Events.Where( @event => @event.Previous == null ) )
 		{
-			if ( @event.Previous == null )
-				_rootEventCache.Add( @event );
+			_rootEventCache.Add( @event );
 		}
 	}
 
@@ -47,6 +58,11 @@ public class Scene
 
 	public void Handle()
 	{
+		if ( _rootEventCache.Count == 0 )
+		{
+			CacheEvents();
+		}
+
 		// first, go through root events to find ones that should be started
 		foreach ( var @event in _rootEventCache )
 		{
@@ -77,6 +93,15 @@ public class Scene
 				@event.End();
 				_activeEventCache.RemoveAt( i );
 				continue; // continue so the event doesn't skip
+			}
+
+			if ( TicksCurrent < @event.TicksStart )
+			{
+				// event shouldn't even be active...
+				// reset back to before being simulated
+				@event.EventSimulated = false;
+				_activeEventCache.RemoveAt( i ); // and remove it from active events
+				continue;
 			}
 
 			// event should tick normally
