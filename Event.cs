@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 
 namespace Lune;
 
@@ -105,11 +104,14 @@ public class EventIOAttribute : System.Attribute
 [System.AttributeUsage( AttributeTargets.Class )]
 public class LibraryEventAttribute : System.Attribute
 {
-	public string Library { get; private set; }
+	public string Library { get; }
+	public string Name { get; }
+	public string Description { get; set; }
 
-	public LibraryEventAttribute( string library )
+	public LibraryEventAttribute( string library, string name )
 	{
 		Library = library;
+		Name = name;
 	}
 }
 

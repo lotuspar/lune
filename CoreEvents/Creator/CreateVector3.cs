@@ -4,7 +4,8 @@ using Lune.Exceptions;
 
 namespace Lune.CoreEvents.Creator;
 
-[LibraryEvent( "Core" )]
+[LibraryEvent( "Creators", "Vector3",
+	Description = "Creates a Vector3" )]
 public class CreateVector3 : Event
 {
 	public override string Name => "Vector3";

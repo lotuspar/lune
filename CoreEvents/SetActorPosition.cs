@@ -4,7 +4,8 @@ using Lune.Exceptions;
 
 namespace Lune.CoreEvents;
 
-[LibraryEvent( "Core" )]
+[LibraryEvent( "Actor", "Set Actor Position",
+	Description = "Set actor position using a Vector3 input" )]
 public class SetActorPosition : Event
 {
 	public override string Name => "Set Actor Position";

@@ -4,7 +4,8 @@ using Lune.Exceptions;
 
 namespace Lune.CoreEvents;
 
-[LibraryEvent( "Core" )]
+[LibraryEvent( "Actor", "Set Actor Visibility",
+	Description = "Set actor visibility using a boolean input" )]
 public class SetActorVisibility : Event
 {
 	public override string Name => "Set Actor Visibility";

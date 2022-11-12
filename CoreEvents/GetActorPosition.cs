@@ -3,10 +3,12 @@ using Lune.Exceptions;
 
 namespace Lune.CoreEvents;
 
-[LibraryEvent( "Core" )]
+[LibraryEvent( "Actor", "Get Actor Position",
+	Description = "Outputs actor position as a Vector3" )]
 public class GetActorPosition : Event
 {
 	public override string Name => "Get Actor Position";
+
 	[EventIO] public EventInput<Actor> Actor { get; set; } = new();
 	[EventIO] public EventOutput<Vector3> Position { get; set; } = new();
 
